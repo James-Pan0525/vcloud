@@ -23,6 +23,7 @@
 
     <modules>
         <module>vcloud-eureka</module>
+        <module>vcloud-user</module>
     </modules>
     <!--公共依赖-->
     <dependencies>
