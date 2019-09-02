@@ -1,0 +1,24 @@
+server:
+  port: 1027
+
+spring:
+  application:
+    name: vcloud-oauth-server
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+  client:
+    serviceUrl:
+      defaultZone: http://root:root@127.0.0.1:1025/eureka/
+    registry-fetch-interval-seconds: 10
+    #enabled: false
+
+logging:
+  level:
+    com:
+      study:
+        vcloud:
+          oauth: debug
