@@ -1,0 +1,59 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: vcloud-zuul-server
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+  client:
+    serviceUrl:
+      defaultZone: http://root:root@127.0.0.1:1025/eureka/
+    registry-fetch-interval-seconds: 10
+
+zuul:
+  ribbon:
+    eager-load:
+      enabled: true
+      clients: vcloud-user-server,vcloud-oauth-server  #服务名，转发相应的服务
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 30000
+    socket-timeout-millis: 30000
+  routes:
+    vcloud-user-server:
+      path: /user/**   #url以/user/** 开头的连接转发到vcloud-user-server服务上
+      serviceId: vcloud-user-server
+      stripPrefix: true
+    vcloud-oauth-server:
+      path: /oauth/**  #url以/oauth/** 开头的连接转发到vcloud-auth-server服务上
+      serviceId: vcloud-oauth-server
+      stripPrefix: true
+
+
+#熔断超时时间设置30s
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+
+ribbon:
+  ReadTimeout: 15000
+  ConnectTimeout: 15000
+
+
+logging:
+  level:
+    com:
+      pwl:
+        vcloud:
+          zuul: debug
+
