@@ -1,6 +1,9 @@
 package com.study.vcloud.user.controller;
 
+import com.study.vcloud.user.service.SysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,8 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/hello")
 public class HelloController {
 
+    @Autowired
+    private SysUserService sysUserService;
+
     @GetMapping
     public String getHello(){
         return "user/hello";
+    }
+
+    @GetMapping("/getUserById/{id}")
+    public String getUser(@PathVariable Integer id){
+        return sysUserService.selectById(id).toString();
     }
 }

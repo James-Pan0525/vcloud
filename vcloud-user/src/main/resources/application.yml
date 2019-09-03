@@ -4,6 +4,29 @@ server:
 spring:
   application:
     name: vcloud-user-server
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/vcloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: root
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+      minimum-idle: 1
+      maximum-pool-size: 20
+      pool-name: bosPoolName
+      max-lifetime: 1800000
+
+mybatis-plus:
+  mapper-locations: classpath:/mappers/*Mapper.xml  #扫描mapper文件
+  typeAliasesPackage: com.study.vcloud.user.entity  #实体类
+  global-config:
+    id-type: 0
+    field-strategy: 1
+    db-column-underline: true
+    refresh-mapper: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
 
 eureka:
   instance:
