@@ -44,6 +44,11 @@
             <version>1.0.9.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
