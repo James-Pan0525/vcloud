@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +21,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -59,6 +62,8 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         private AuthenticationManager authenticationManager;
         @Autowired
         private UserDetailsService userDetailsService;
+        @Autowired
+        private RedisConnectionFactory redisConnectionFactory;
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -77,6 +82,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
             tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
             endpoints
                     .tokenEnhancer(tokenEnhancerChain)
+                    .tokenStore(redisTokenStore())
                     .accessTokenConverter(accessTokenConverter())
                     .authenticationManager(authenticationManager)
                     .userDetailsService(userDetailsService)
@@ -84,6 +90,18 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                     .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
             endpoints.reuseRefreshTokens(true);
             //oauth2登录异常处理
+        }
+
+        /**
+         * tokenstore 定制化处理
+         * @return TokenStore
+         */
+        @Bean
+        public TokenStore redisTokenStore() {
+            RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
+            //redis key 前缀
+            tokenStore.setPrefix(DEMO_RESOURCE_ID+"_");
+            return tokenStore;
         }
 
 
