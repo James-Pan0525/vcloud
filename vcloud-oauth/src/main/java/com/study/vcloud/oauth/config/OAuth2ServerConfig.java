@@ -2,6 +2,7 @@ package com.study.vcloud.oauth.config;
 
 
 import com.study.vcloud.oauth.bean.UserVoDetail;
+import com.study.vcloud.oauth.exception.BootOAuth2WebResponseExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -90,6 +91,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                     .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
             endpoints.reuseRefreshTokens(true);
             //oauth2登录异常处理
+            endpoints.exceptionTranslator(new BootOAuth2WebResponseExceptionTranslator());
         }
 
         /**
@@ -140,7 +142,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
                 //设置token的过期时间30分钟
                 Calendar nowTime = Calendar.getInstance();
-                nowTime.add(Calendar.MINUTE, 30);
+                nowTime.add(Calendar.MINUTE, 1);
                 ((DefaultOAuth2AccessToken) accessToken).setExpiration(nowTime.getTime());
                 return accessToken;
             };
