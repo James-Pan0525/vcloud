@@ -142,7 +142,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
                 //设置token的过期时间30分钟
                 Calendar nowTime = Calendar.getInstance();
-                nowTime.add(Calendar.MINUTE, 1);
+                nowTime.add(Calendar.MINUTE, 30);
                 ((DefaultOAuth2AccessToken) accessToken).setExpiration(nowTime.getTime());
                 return accessToken;
             };

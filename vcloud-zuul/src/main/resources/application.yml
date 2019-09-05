@@ -35,6 +35,21 @@ zuul:
       serviceId: vcloud-oauth-server
       stripPrefix: true
 
+security:
+  auth:
+    server: http://127.0.0.1:1027
+  oauth2:
+    client:
+      client-id: client_id
+      client-secret: client_secret
+    resource:
+      loadBalanced: true
+      jwt:
+        key-uri: ${security.auth.server}/oauth/token_key #解析jwt令牌所需要密钥的地址
+
+urls:
+  anon:
+  - /oauth/**
 
 #熔断超时时间设置30s
 hystrix:
