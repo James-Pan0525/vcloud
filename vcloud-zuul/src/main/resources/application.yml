@@ -44,6 +44,7 @@ security:
       client-secret: client_secret
     resource:
       loadBalanced: true
+      #token-info-uri: ${security.auth.server}/oauth/check_token
       jwt:
         key-uri: ${security.auth.server}/oauth/token_key #解析jwt令牌所需要密钥的地址
 

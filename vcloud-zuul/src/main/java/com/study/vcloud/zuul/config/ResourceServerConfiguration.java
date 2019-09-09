@@ -1,5 +1,6 @@
 package com.study.vcloud.zuul.config;
 
+import com.study.vcloud.zuul.exception.AuthExceptionEntryPoint;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
@@ -30,6 +31,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources.resourceId("vcloud");
+        //token异常
+        resources.authenticationEntryPoint(new AuthExceptionEntryPoint());
     }
 
 
