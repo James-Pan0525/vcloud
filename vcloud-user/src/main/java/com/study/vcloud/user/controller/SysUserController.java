@@ -6,10 +6,7 @@ import com.study.vcloud.user.bean.UserVo;
 import com.study.vcloud.user.entity.SysUser;
 import com.study.vcloud.user.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -44,6 +41,14 @@ public class SysUserController {
         }
         UserVo userVo = new UserVo(sysUser.getUserId().longValue(),sysUser.getUsername(),sysUser.getPassword());
         return userVo;
+    }
+
+    /**
+     * @Description 检验权限
+     **/
+    @GetMapping("/hasAuth")
+    public Boolean hasAuth(@RequestParam("url") String url , @RequestParam("userId") Long userId , @RequestParam("method") String method){
+        return sysUserService.hasAuth(url,userId,method);
     }
 
 }

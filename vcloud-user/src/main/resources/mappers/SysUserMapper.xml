@@ -18,4 +18,17 @@
         user_id, username, password, create_time, update_time, create_user, update_user
     </sql>
 
+    <!--用户权限-->
+    <select id="selectResourceByUserId" resultType="java.lang.String">
+        SELECT
+            CONCAT(smenu.method,'|',smenu.url)
+        FROM
+            sys_user suser
+            LEFT JOIN sys_user_role surole ON suser.user_id = surole.user_id
+            LEFT JOIN sys_role srole ON surole.role_id=srole.role_id
+            LEFT JOIN sys_role_menu srmenu ON srole.role_id=srmenu.role_id
+            LEFT JOIN sys_menu smenu ON srmenu.menu_id=smenu.menu_id
+            where suser.user_id = #{userId}
+    </select>
+
 </mapper>

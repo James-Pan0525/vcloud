@@ -22,7 +22,7 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws ServletException {
         Map map = new HashMap();
         map.put("code", "401");
-        map.put("message", "token非法");
+        map.put("message", authException.getMessage());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         try {

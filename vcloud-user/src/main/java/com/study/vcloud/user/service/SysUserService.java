@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface SysUserService extends IService<SysUser> {
 
+    /**
+     * @Description 检验权限
+     * @Date 17:45 2019/9/9
+     * @Param [url, userId, method]
+     * @return java.lang.Boolean
+     **/
+    Boolean hasAuth(String url, Long userId, String method);
 }
