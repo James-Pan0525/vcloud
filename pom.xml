@@ -26,6 +26,7 @@
         <module>vcloud-user</module>
         <module>vcloud-oauth</module>
         <module>vcloud-zuul</module>
+        <module>vcloud-common</module>
     </modules>
     <!--公共依赖-->
     <dependencies>

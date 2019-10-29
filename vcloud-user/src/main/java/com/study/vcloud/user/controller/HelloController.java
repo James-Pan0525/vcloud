@@ -1,5 +1,6 @@
 package com.study.vcloud.user.controller;
 
+import com.study.vcloud.common.bean.UserVO;
 import com.study.vcloud.user.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,8 @@ public class HelloController {
     private SysUserService sysUserService;
 
     @GetMapping
-    public String getHello(){
+    public String getHello(UserVO userVO){
+        System.out.println("用户id:"+userVO.getUserId());
         return "user/hello";
     }
 

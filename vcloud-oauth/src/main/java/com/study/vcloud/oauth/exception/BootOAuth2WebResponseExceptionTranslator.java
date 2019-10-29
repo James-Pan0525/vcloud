@@ -7,6 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.ClientAuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
@@ -64,6 +65,11 @@ public class BootOAuth2WebResponseExceptionTranslator implements WebResponseExce
         headers.set("Pragma", "no-cache");
         if (status == HttpStatus.UNAUTHORIZED.value() || (e instanceof InsufficientScopeException)) {
             headers.set("WWW-Authenticate", String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
+        }
+        //客户端异常直接返回客户端,不然无法解析
+        if (e instanceof ClientAuthenticationException) {
+            return new ResponseEntity<>(e, headers,
+                    HttpStatus.valueOf(status));
         }
         String message=e.getMessage();
         BootOAuth2Exception exception = new BootOAuth2Exception(message,e);

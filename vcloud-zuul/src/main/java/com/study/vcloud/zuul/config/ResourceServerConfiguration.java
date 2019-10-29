@@ -24,6 +24,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
     @Autowired
     private OAuth2WebSecurityExpressionHandler expressionHandler;
+    @Autowired
+    private RemoteTokenService remoteTokenService;
 
 
     @Override
@@ -40,6 +42,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources.expressionHandler(expressionHandler);
         resources.resourceId("vcloud");
+        resources.tokenServices(remoteTokenService);
         //token异常
         resources.authenticationEntryPoint(new AuthExceptionEntryPoint());
         //授权异常处理

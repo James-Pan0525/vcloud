@@ -34,6 +34,7 @@ zuul:
       path: /oauth/**  #url以/oauth/** 开头的连接转发到vcloud-auth-server服务上
       serviceId: vcloud-oauth-server
       stripPrefix: true
+  sensitive-headers: #为空解决转发服务token丢失
 
 security:
   auth:
@@ -44,9 +45,9 @@ security:
       client-secret: client_secret
     resource:
       loadBalanced: true
-      #token-info-uri: ${security.auth.server}/oauth/check_token
-      jwt:
-        key-uri: ${security.auth.server}/oauth/token_key #解析jwt令牌所需要密钥的地址
+      token-info-uri: ${security.auth.server}/oauth/check_token #验证auth服务中验证token
+      #jwt:
+        #key-uri: ${security.auth.server}/oauth/token_key #解析jwt令牌所需要密钥的地址
 
 urls:
   anon:
@@ -72,4 +73,5 @@ logging:
       pwl:
         vcloud:
           zuul: debug
+
 
