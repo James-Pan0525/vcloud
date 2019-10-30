@@ -18,6 +18,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Configuration
 public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
+
+    /**
+     * 返回true才会执行resolveArgument方法
+     **/
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
         return methodParameter.getParameterType().equals(UserVO.class);
@@ -25,7 +29,7 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
 
     /**
      * @Author Pan Weilong
-     * @Description 解析token
+     * @Description 解析token,获取用户信息
      * @Date 13:39 2019/10/29
      * @Param [parameter, mavContainer, nativeWebRequest, binderFactory]
      * @return java.lang.Object

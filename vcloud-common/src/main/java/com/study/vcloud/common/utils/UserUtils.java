@@ -15,6 +15,9 @@ import java.util.Base64;
 public class UserUtils {
 
 
+    /**
+     * 获取用户id
+     **/
     public static Integer getUserId(HttpServletRequest request) {
         String token=getToken(request);
         String key = Base64.getEncoder().encodeToString("vcloud".getBytes());
@@ -22,7 +25,10 @@ public class UserUtils {
         return Integer.parseInt(claims.get("userId").toString());
     }
 
-    private static String getToken(HttpServletRequest request) {
+    /**
+     * 获取token
+     **/
+    public static String getToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         return StringUtils.substringAfter(token, "bearer ");
     }
