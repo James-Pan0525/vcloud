@@ -26,6 +26,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private OAuth2WebSecurityExpressionHandler expressionHandler;
     @Autowired
     private RemoteTokenService remoteTokenService;
+    @Autowired
+    private FilterUrlsConfig filterUrlsConfig;
 
 
     @Override
@@ -34,6 +36,10 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .authorizeRequests();
         //经过oauth服务的连接全部放行,不然token会获取不到
         registry.antMatchers("/oauth/**").permitAll();
+        for(String url:filterUrlsConfig.getAnon()){
+            //公用url放行
+            registry.antMatchers(url).permitAll();
+        }
         //权限控制
         registry.anyRequest().access("@permissionService.hasPermission(request,authentication)");
     }

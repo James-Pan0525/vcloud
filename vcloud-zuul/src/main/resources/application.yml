@@ -49,9 +49,11 @@ security:
       #jwt:
         #key-uri: ${security.auth.server}/oauth/token_key #解析jwt令牌所需要密钥的地址
 
+#不需要鉴权的url
 urls:
   anon:
   - /oauth/**
+  - /user/common/**
 
 #熔断超时时间设置30s
 hystrix:
@@ -65,6 +67,8 @@ hystrix:
 ribbon:
   ReadTimeout: 15000
   ConnectTimeout: 15000
+
+
 
 
 logging:
